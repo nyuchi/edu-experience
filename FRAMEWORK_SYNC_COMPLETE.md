@@ -2,19 +2,23 @@
 
 ## Issues Resolved ✅
 
-### 1. **Duplicated Look-Fors Issue** 
+### 1. **Duplicated Look-Fors Issue**
+
 **Problem**: The MobileObservationForm had hardcoded 10 look-fors instead of pulling from the framework configuration, creating two separate datasets.
 
-**Solution**: 
+**Solution**:
+
 - Created a shared `FrameworkService` (`src/services/frameworkService.ts`) as the single source of truth
-- Updated `MobileObservationForm` to use `frameworkService.getObservationQuestions()` 
+- Updated `MobileObservationForm` to use `frameworkService.getObservationQuestions()`
 - Updated `FrameworkConfigurator` to use the same shared service
 - Both components now reference identical look-for data
 
 ### 2. **New Observation Button Not Working**
+
 **Problem**: The "New Observation" button linked directly to `/observe` without any context or teacher selection.
 
 **Solution**:
+
 - Created `NewObservationModal` component for teacher/class selection
 - Updated `ObservationsList` to show modal instead of direct navigation
 - Added session storage to pass observation context to the observe page
@@ -23,6 +27,7 @@
 ## Implementation Details
 
 ### Shared Framework Service
+
 ```typescript
 // src/services/frameworkService.ts
 - Single source of truth for all 10 look-fors
@@ -32,11 +37,13 @@
 ```
 
 ### Framework Synchronization
+
 - **FrameworkConfigurator**: Uses `frameworkService.getFramework()` and `frameworkService.getFrameworkOptions()`
 - **MobileObservationForm**: Uses `frameworkService.getObservationQuestions()` and `frameworkService.getFrameworkOptions()`
 - **Data Consistency**: Both components show identical 10 look-fors with same framework alignments
 
 ### New Observation Workflow
+
 1. User clicks "New Observation" button in ObservationsList
 2. `NewObservationModal` opens with teacher selection and framework choice
 3. User selects teacher/class or enters custom details
@@ -50,16 +57,17 @@ Both framework configuration and observation form now show:
 
 1. **Clear Learning Targets** - Standards-based, student-understood targets
 2. **Inclusive Environment** - Respectful, identity-affirming classroom
-3. **Formative Assessment** - Checking for understanding and responsive instruction  
+3. **Formative Assessment** - Checking for understanding and responsive instruction
 4. **Questioning Strategies** - Cognitive demand and critical thinking
 5. **Collaborative Learning** - Meaningful collaboration with defined roles
 6. **Cultural Competence** - Integration of student backgrounds/experiences
 7. **Active Monitoring** - Support during group/independent work
 8. **Reflection & Consolidation** - Student learning reflection opportunities
-9. **Relationship Building** - Strong, trusting teacher-student relationships  
+9. **Relationship Building** - Strong, trusting teacher-student relationships
 10. **Differentiated Instruction** - Scaffolded support for diverse needs
 
 ### Framework Alignment Categories
+
 - **Culturally Responsive Practices (CRP)**: General, Curriculum, High Expectations, Learning Partnerships
 - **CASEL**: Social Awareness, Relationship Skills, Self-Management, Equity & Access
 - **Tripod 7Cs**: Care, Challenge, Clarify, Captivate, Confer, Consolidate, Control
@@ -69,23 +77,27 @@ Both framework configuration and observation form now show:
 
 ## User Experience Improvements
 
-### For Observers:
+### For Observers
+
 - Click "New Observation" → Select teacher/class → Start observing immediately
 - Pre-populated teacher/class information saves setup time
 - All 10 look-fors match framework configuration exactly
 
-### For Framework Administrators:
-- Edit look-fors in FrameworkConfigurator 
+### For Framework Administrators
+
+- Edit look-fors in FrameworkConfigurator
 - Changes automatically reflect in observation forms
 - Single dataset ensures consistency
 
-### For Teachers:
+### For Teachers
+
 - Observations use the same look-fors they see in framework documentation
 - Consistent language and expectations across all tools
 
 ## Technical Architecture
 
-### Data Flow:
+### Data Flow
+
 ```
 FrameworkService (Single Source of Truth)
     ↓
@@ -93,7 +105,8 @@ FrameworkService (Single Source of Truth)
 └── MobileObservationForm (Live Observations)
 ```
 
-### Navigation Flow:
+### Navigation Flow
+
 ```
 ObservationsList → NewObservationModal → /observe → MobileObservationForm
      ↓                    ↓                  ↓              ↓
@@ -101,6 +114,7 @@ ObservationsList → NewObservationModal → /observe → MobileObservationForm
 ```
 
 ## Build Status: ✅ SUCCESS
+
 - 7 pages built successfully
 - 1,710 modules transformed
 - No compilation errors

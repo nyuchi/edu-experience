@@ -1,6 +1,7 @@
 # EducatorEval Framework Editor - Coordinator Guide
 
 ## Overview
+
 The Framework Editor now provides comprehensive editing capabilities for coordinators to manage framework details without requiring code access. All editing functions are accessible through the user interface when in "Edit Mode".
 
 ## How to Access Editing Features
@@ -14,13 +15,15 @@ The Framework Editor now provides comprehensive editing capabilities for coordin
 ### 🎯 Framework Details Editing
 
 **What can be edited:**
+
 - Framework Name
-- Framework Description  
+- Framework Description
 - Status (Active, Inactive, Draft)
 - Version number
 - Tags (add/remove)
 
 **How to edit:**
+
 1. Click the edit icon (✏️) next to the framework name in the sidebar
 2. Edit Framework Details modal opens
 3. Make changes to any field
@@ -28,6 +31,7 @@ The Framework Editor now provides comprehensive editing capabilities for coordin
 5. Click "Save Framework" to confirm changes
 
 **Features:**
+
 - ✅ Real-time tag management (add/remove with Enter key or button)
 - ✅ Status dropdown selection
 - ✅ Automatic last-modified date update
@@ -36,11 +40,13 @@ The Framework Editor now provides comprehensive editing capabilities for coordin
 ### 📂 Section Details Editing
 
 **What can be edited:**
+
 - Section Title
 - Section Description
 - Section Weight (percentage)
 
 **How to edit:**
+
 1. Select a section from the sidebar
 2. Click the edit icon (✏️) next to the section title in the main area
 3. Edit Section Details modal opens
@@ -48,6 +54,7 @@ The Framework Editor now provides comprehensive editing capabilities for coordin
 5. Click "Save Section" to confirm changes
 
 **Features:**
+
 - ✅ Weight percentage validation (1-100%)
 - ✅ Real-time question statistics display
 - ✅ Form validation (title and description required)
@@ -55,6 +62,7 @@ The Framework Editor now provides comprehensive editing capabilities for coordin
 ### ❓ Question/Look-For Management
 
 **What can be edited:**
+
 - Question text
 - Question type (rating, text, multiple choice, etc.)
 - Help text for observers
@@ -64,6 +72,7 @@ The Framework Editor now provides comprehensive editing capabilities for coordin
 - Weight values
 
 **How to edit existing questions:**
+
 1. Click the edit icon (✏️) on any question card
 2. Edit Look-For modal opens with current values
 3. Modify any field including tags and framework alignments
@@ -71,6 +80,7 @@ The Framework Editor now provides comprehensive editing capabilities for coordin
 5. Click "Save Changes" to confirm
 
 **How to add new questions:**
+
 1. In edit mode, click "Add Look-For" button
 2. Fill in all question details
 3. Select framework alignments from categorized options
@@ -78,9 +88,11 @@ The Framework Editor now provides comprehensive editing capabilities for coordin
 5. Click "Add Look-For" to create
 
 **How to reorder questions:**
+
 - Use ⬆️ and ⬇️ arrows on each question card to move up/down
 
 **How to delete questions:**
+
 - Click the 🗑️ trash icon on any question card
 
 ## Framework Alignment Categories
@@ -88,12 +100,14 @@ The Framework Editor now provides comprehensive editing capabilities for coordin
 The system includes comprehensive framework alignment options organized by category:
 
 ### 🟢 Culturally Responsive Practices (CRP)
+
 - CRP (General)
-- CRP (Curriculum Relevance)  
+- CRP (Curriculum Relevance)
 - CRP (High Expectations)
 - CRP (Learning Partnerships)
 
 ### 🩷 Social-Emotional Learning (CASEL)
+
 - CASEL (Self-Awareness)
 - CASEL (Social Awareness)
 - CASEL (Relationship Skills)
@@ -101,26 +115,32 @@ The system includes comprehensive framework alignment options organized by categ
 - CASEL (Responsible Decision-Making)
 
 ### 🔵 7Cs of Learning (Tripod)
+
 - Tripod: Care, Challenge, Clarify, Captivate, Confer, Consolidate, Control
 
 ### 🟡 Assessment
+
 - 5 Daily Assessment Practices
 
 ### 🟣 Student Experience
+
 - Panorama (Student Experience)
 
 ### 🟦 Inclusion & Equity
+
 - Inclusive Practices
 
 ## Tag Management
 
 **Framework Tags:**
+
 - Add tags to categorize and organize frameworks
 - Remove unwanted tags with the ❌ button
 - Tags help with searching and filtering
 - Press Enter or click "Add" to create new tags
 
 **Question Tags:**
+
 - Tag individual questions for easy categorization
 - Examples: 'learning-targets', 'belonging', 'assessment'
 - Use lowercase, hyphenated format for consistency
@@ -146,5 +166,5 @@ For technical issues or questions about using the Framework Editor, contact your
 
 ---
 
-*Last Updated: August 25, 2025*
-*Framework Editor Version: Enhanced with Full Editing Capabilities*
+_Last Updated: August 25, 2025_
+_Framework Editor Version: Enhanced with Full Editing Capabilities_
