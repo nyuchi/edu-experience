@@ -56,17 +56,17 @@ service cloud.firestore {
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
       // Admins can read all users
-      allow read: if request.auth != null && 
+      allow read: if request.auth != null &&
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
-    
+
     // Framework access control
     match /frameworks/{frameworkId} {
       allow read: if request.auth != null;
-      allow write: if request.auth != null && 
+      allow write: if request.auth != null &&
         (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'coordinator']);
     }
-    
+
     // Observation access control
     match /observations/{observationId} {
       allow read: if request.auth != null && (
@@ -74,14 +74,14 @@ service cloud.firestore {
         resource.data.teacherId == request.auth.uid ||
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'coordinator']
       );
-      allow write: if request.auth != null && 
+      allow write: if request.auth != null &&
         resource.data.observerId == request.auth.uid;
     }
-    
+
     // Teachers can be read by authenticated users, written by admins/coordinators
     match /teachers/{teacherId} {
       allow read: if request.auth != null;
-      allow write: if request.auth != null && 
+      allow write: if request.auth != null &&
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'coordinator'];
     }
   }
@@ -195,21 +195,25 @@ Since user creation requires admin permissions, you'll need to create the first 
 ## Production Considerations
 
 ### Security
+
 - Review and test all Firestore security rules
 - Enable App Check for additional security
 - Set up monitoring and alerting
 
 ### Performance
+
 - Create composite indexes for complex queries
 - Set up Cloud Functions for heavy processing
 - Consider using Firebase Performance Monitoring
 
 ### Backup & Recovery
+
 - Enable automated backups
 - Test restore procedures
 - Document your backup strategy
 
 ### Analytics
+
 - Set up Google Analytics integration
 - Configure custom events for tracking usage
 - Set up BigQuery export for advanced analytics
@@ -217,16 +221,19 @@ Since user creation requires admin permissions, you'll need to create the first 
 ## Monitoring & Maintenance
 
 ### Firestore Usage
+
 - Monitor read/write operations
 - Watch for quota limits
 - Optimize queries to reduce costs
 
 ### Authentication
+
 - Monitor authentication metrics
 - Set up user activity alerts
 - Regular security audits
 
 ### Performance
+
 - Use Firebase Performance SDK
 - Monitor app startup time
 - Track user engagement metrics
@@ -242,8 +249,8 @@ Since user creation requires admin permissions, you'll need to create the first 
 
 ### Getting Help
 
-- Firebase Documentation: https://firebase.google.com/docs
-- Firebase Support: https://firebase.google.com/support
+- Firebase Documentation: <https://firebase.google.com/docs>
+- Firebase Support: <https://firebase.google.com/support>
 - Stack Overflow: Tag questions with `firebase`
 
 ## Next Steps
