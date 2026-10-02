@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { 
+import React, { useState } from "react";
+import {
   Bell,
   Menu,
   X,
@@ -7,11 +7,11 @@ import {
   BarChart3,
   Database,
   Calendar,
-  Eye
-} from 'lucide-react';
-import { useAuth } from '../hooks/useAuth';
-import { UserRole } from '../types';
-import UserMenu from './UserMenu';
+  Eye,
+} from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
+import { UserRole } from "../types";
+import UserMenu from "./UserMenu";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -29,16 +29,46 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigation: NavigationItem[] = [
-    { name: 'Dashboard', href: '/dashboard', icon: BarChart3, roles: ['admin', 'coordinator', 'observer'] },
-    { name: 'Observations', href: '/observations', icon: Eye, roles: ['admin', 'coordinator', 'observer', 'teacher'] },
-    { name: 'Live Observe', href: '/observe', icon: BookOpen, roles: ['observer', 'coordinator'] },
-    { name: 'Frameworks', href: '/framework', icon: Database, roles: ['admin', 'coordinator'] },
-    { name: 'Data', href: '/data', icon: Database, roles: ['admin', 'coordinator'] },
-    { name: 'Schedule', href: '/schedule', icon: Calendar, roles: ['admin', 'coordinator', 'observer'] },
+    {
+      name: "Dashboard",
+      href: "/dashboard",
+      icon: BarChart3,
+      roles: ["admin", "coordinator", "observer"],
+    },
+    {
+      name: "Observations",
+      href: "/observations",
+      icon: Eye,
+      roles: ["admin", "coordinator", "observer", "teacher"],
+    },
+    {
+      name: "Live Observe",
+      href: "/observe",
+      icon: BookOpen,
+      roles: ["observer", "coordinator"],
+    },
+    {
+      name: "Frameworks",
+      href: "/framework",
+      icon: Database,
+      roles: ["admin", "coordinator"],
+    },
+    {
+      name: "Data",
+      href: "/data",
+      icon: Database,
+      roles: ["admin", "coordinator"],
+    },
+    {
+      name: "Schedule",
+      href: "/schedule",
+      icon: Calendar,
+      roles: ["admin", "coordinator", "observer"],
+    },
   ];
 
-  const visibleNavigation = navigation.filter(item => 
-    item.roles.some(role => hasRole(role))
+  const visibleNavigation = navigation.filter((item) =>
+    item.roles.some((role) => hasRole(role)),
   );
 
   return (
@@ -52,8 +82,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="flex items-center space-x-3">
                 <BookOpen className="w-8 h-8 text-blue-600" />
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">CRP Observation</h1>
-                  <p className="text-xs text-gray-500">Leading with Observation</p>
+                  <h1 className="text-xl font-bold text-gray-900">
+                    CRP Observation
+                  </h1>
+                  <p className="text-xs text-gray-500">
+                    Leading with Observation
+                  </p>
                 </div>
               </div>
 
@@ -62,15 +96,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {visibleNavigation.map((item) => {
                   const Icon = item.icon;
                   const isActive = window.location.pathname === item.href;
-                  
+
                   return (
                     <a
                       key={item.name}
                       href={item.href}
                       className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         isActive
-                          ? 'bg-blue-100 text-blue-700'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                          ? "bg-blue-100 text-blue-700"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -112,15 +146,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {visibleNavigation.map((item) => {
                   const Icon = item.icon;
                   const isActive = window.location.pathname === item.href;
-                  
+
                   return (
                     <a
                       key={item.name}
                       href={item.href}
                       className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         isActive
-                          ? 'bg-blue-100 text-blue-700'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                          ? "bg-blue-100 text-blue-700"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -136,9 +170,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </header>
 
       {/* Main Content */}
-      <main>
-        {children}
-      </main>
+      <main>{children}</main>
     </div>
   );
 };

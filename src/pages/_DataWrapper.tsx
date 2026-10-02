@@ -1,7 +1,7 @@
-import React from 'react';
-import { AdminProvider } from '../context/AdminContext';
-import { DataProvider } from '../context/DataContext';
-import DataManagement from './_DataManagement';
+import React from "react";
+import { AdminProvider } from "../context/AdminContext";
+import { DataProvider } from "../context/DataContext";
+import DataManagement from "./_DataManagement";
 
 const DataWrapper: React.FC = () => {
   return (

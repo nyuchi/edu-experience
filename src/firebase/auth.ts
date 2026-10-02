@@ -6,11 +6,11 @@ import {
   sendPasswordResetEmail,
   updateProfile,
   User as FirebaseUser,
-  AuthError
-} from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { auth, db } from './config';
-import { User, UserRole } from '../types';
+  AuthError,
+} from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { auth, db } from "./config";
+import { User, UserRole } from "../types";
 
 export interface SignInCredentials {
   email: string;
@@ -28,26 +28,37 @@ export interface SignUpData {
 /**
  * Sign in user with email and password
  */
-export const signInUser = async ({ email, password }: SignInCredentials): Promise<User> => {
+export const signInUser = async ({
+  email,
+  password,
+}: SignInCredentials): Promise<User> => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
     const firebaseUser = userCredential.user;
-    
+
     // Get user profile from Firestore
-    const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-    
+    const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+
     if (!userDoc.exists()) {
-      throw new Error('User profile not found');
+      throw new Error("User profile not found");
     }
-    
+
     const userData = userDoc.data();
-    
+
     // Update last login
-    await setDoc(doc(db, 'users', firebaseUser.uid), {
-      ...userData,
-      lastLogin: new Date().toISOString()
-    }, { merge: true });
-    
+    await setDoc(
+      doc(db, "users", firebaseUser.uid),
+      {
+        ...userData,
+        lastLogin: new Date().toISOString(),
+      },
+      { merge: true },
+    );
+
     return {
       id: firebaseUser.uid,
       email: firebaseUser.email!,
@@ -55,7 +66,7 @@ export const signInUser = async ({ email, password }: SignInCredentials): Promis
       role: userData.role,
       department: userData.department,
       permissions: userData.permissions || [],
-      lastLogin: new Date().toISOString()
+      lastLogin: new Date().toISOString(),
     };
   } catch (error) {
     const authError = error as AuthError;
@@ -68,29 +79,33 @@ export const signInUser = async ({ email, password }: SignInCredentials): Promis
  */
 export const createUser = async (userData: SignUpData): Promise<User> => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      userData.email,
+      userData.password,
+    );
     const firebaseUser = userCredential.user;
-    
+
     // Update the user's display name
     await updateProfile(firebaseUser, {
-      displayName: userData.name
+      displayName: userData.name,
     });
-    
+
     // Create user profile in Firestore
-    const userProfile: Omit<User, 'id'> = {
+    const userProfile: Omit<User, "id"> = {
       name: userData.name,
       email: userData.email,
       role: userData.role,
       department: userData.department,
       permissions: getDefaultPermissions(userData.role),
-      lastLogin: new Date().toISOString()
+      lastLogin: new Date().toISOString(),
     };
-    
-    await setDoc(doc(db, 'users', firebaseUser.uid), userProfile);
-    
+
+    await setDoc(doc(db, "users", firebaseUser.uid), userProfile);
+
     return {
       id: firebaseUser.uid,
-      ...userProfile
+      ...userProfile,
     };
   } catch (error) {
     const authError = error as AuthError;
@@ -125,16 +140,18 @@ export const resetPassword = async (email: string): Promise<void> => {
 /**
  * Get current user profile from Firestore
  */
-export const getCurrentUserProfile = async (firebaseUser: FirebaseUser): Promise<User | null> => {
+export const getCurrentUserProfile = async (
+  firebaseUser: FirebaseUser,
+): Promise<User | null> => {
   try {
-    const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-    
+    const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+
     if (!userDoc.exists()) {
       return null;
     }
-    
+
     const userData = userDoc.data();
-    
+
     return {
       id: firebaseUser.uid,
       email: firebaseUser.email!,
@@ -142,10 +159,10 @@ export const getCurrentUserProfile = async (firebaseUser: FirebaseUser): Promise
       role: userData.role,
       department: userData.department,
       permissions: userData.permissions || [],
-      lastLogin: userData.lastLogin
+      lastLogin: userData.lastLogin,
     };
   } catch (error) {
-    console.error('Error getting user profile:', error);
+    console.error("Error getting user profile:", error);
     return null;
   }
 };
@@ -153,14 +170,21 @@ export const getCurrentUserProfile = async (firebaseUser: FirebaseUser): Promise
 /**
  * Update user profile
  */
-export const updateUserProfile = async (userId: string, updates: Partial<User>): Promise<void> => {
+export const updateUserProfile = async (
+  userId: string,
+  updates: Partial<User>,
+): Promise<void> => {
   try {
-    await setDoc(doc(db, 'users', userId), {
-      ...updates,
-      updatedAt: new Date().toISOString()
-    }, { merge: true });
+    await setDoc(
+      doc(db, "users", userId),
+      {
+        ...updates,
+        updatedAt: new Date().toISOString(),
+      },
+      { merge: true },
+    );
   } catch (error) {
-    throw new Error('Failed to update user profile');
+    throw new Error("Failed to update user profile");
   }
 };
 
@@ -169,37 +193,35 @@ export const updateUserProfile = async (userId: string, updates: Partial<User>):
  */
 const getDefaultPermissions = (role: UserRole): string[] => {
   switch (role) {
-    case 'admin':
+    case "admin":
       return [
-        'frameworks.read',
-        'frameworks.write',
-        'observations.read',
-        'observations.write',
-        'users.read',
-        'users.write',
-        'analytics.read',
-        'data.import',
-        'data.export'
+        "frameworks.read",
+        "frameworks.write",
+        "observations.read",
+        "observations.write",
+        "users.read",
+        "users.write",
+        "analytics.read",
+        "data.import",
+        "data.export",
       ];
-    case 'coordinator':
+    case "coordinator":
       return [
-        'frameworks.read',
-        'frameworks.write',
-        'observations.read',
-        'analytics.read',
-        'data.export'
+        "frameworks.read",
+        "frameworks.write",
+        "observations.read",
+        "analytics.read",
+        "data.export",
       ];
-    case 'observer':
+    case "observer":
       return [
-        'frameworks.read',
-        'observations.write',
-        'observations.read.own',
-        'teachers.read'
+        "frameworks.read",
+        "observations.write",
+        "observations.read.own",
+        "teachers.read",
       ];
-    case 'teacher':
-      return [
-        'observations.read.own'
-      ];
+    case "teacher":
+      return ["observations.read.own"];
     default:
       return [];
   }
@@ -210,21 +232,21 @@ const getDefaultPermissions = (role: UserRole): string[] => {
  */
 const getAuthErrorMessage = (errorCode: string): string => {
   switch (errorCode) {
-    case 'auth/user-disabled':
-      return 'This account has been disabled.';
-    case 'auth/user-not-found':
-      return 'No account found with this email address.';
-    case 'auth/wrong-password':
-      return 'Incorrect password.';
-    case 'auth/email-already-in-use':
-      return 'An account with this email already exists.';
-    case 'auth/weak-password':
-      return 'Password should be at least 6 characters.';
-    case 'auth/invalid-email':
-      return 'Please enter a valid email address.';
-    case 'auth/too-many-requests':
-      return 'Too many unsuccessful attempts. Please try again later.';
+    case "auth/user-disabled":
+      return "This account has been disabled.";
+    case "auth/user-not-found":
+      return "No account found with this email address.";
+    case "auth/wrong-password":
+      return "Incorrect password.";
+    case "auth/email-already-in-use":
+      return "An account with this email already exists.";
+    case "auth/weak-password":
+      return "Password should be at least 6 characters.";
+    case "auth/invalid-email":
+      return "Please enter a valid email address.";
+    case "auth/too-many-requests":
+      return "Too many unsuccessful attempts. Please try again later.";
     default:
-      return 'An authentication error occurred. Please try again.';
+      return "An authentication error occurred. Please try again.";
   }
 };

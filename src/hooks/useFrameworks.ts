@@ -1,7 +1,7 @@
 // Framework Management Hook
-import { useState, useEffect, useCallback } from 'react';
-import { frameworkOperations } from '../firebase/firestore';
-import { Framework } from '../types';
+import { useState, useEffect, useCallback } from "react";
+import { frameworkOperations } from "../firebase/firestore";
+import { Framework } from "../types";
 
 export const useFrameworks = () => {
   const [frameworks, setFrameworks] = useState<Framework[]>([]);
@@ -16,7 +16,8 @@ export const useFrameworks = () => {
       const data = await frameworkOperations.getAll();
       setFrameworks(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load frameworks';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to load frameworks";
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -34,28 +35,35 @@ export const useFrameworks = () => {
   }, []);
 
   // Create new framework
-  const createFramework = async (framework: Omit<Framework, 'id'>): Promise<string | null> => {
+  const createFramework = async (
+    framework: Omit<Framework, "id">,
+  ): Promise<string | null> => {
     try {
       setError(null);
       const id = await frameworkOperations.create(framework);
       // Frameworks will update via subscription
       return id;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to create framework';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to create framework";
       setError(errorMessage);
       return null;
     }
   };
 
   // Update framework
-  const updateFramework = async (id: string, updates: Partial<Framework>): Promise<boolean> => {
+  const updateFramework = async (
+    id: string,
+    updates: Partial<Framework>,
+  ): Promise<boolean> => {
     try {
       setError(null);
       await frameworkOperations.update(id, updates);
       // Frameworks will update via subscription
       return true;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to update framework';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to update framework";
       setError(errorMessage);
       return false;
     }
@@ -69,7 +77,8 @@ export const useFrameworks = () => {
       // Frameworks will update via subscription
       return true;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to delete framework';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to delete framework";
       setError(errorMessage);
       return false;
     }
@@ -77,21 +86,22 @@ export const useFrameworks = () => {
 
   // Get framework by ID
   const getFrameworkById = (id: string): Framework | undefined => {
-    return frameworks.find(framework => framework.id === id);
+    return frameworks.find((framework) => framework.id === id);
   };
 
   // Get active frameworks
   const getActiveFrameworks = (): Framework[] => {
-    return frameworks.filter(framework => framework.status === 'active');
+    return frameworks.filter((framework) => framework.status === "active");
   };
 
   // Search frameworks
   const searchFrameworks = (searchTerm: string): Framework[] => {
     const term = searchTerm.toLowerCase();
-    return frameworks.filter(framework =>
-      framework.name.toLowerCase().includes(term) ||
-      framework.description.toLowerCase().includes(term) ||
-      framework.tags.some(tag => tag.toLowerCase().includes(term))
+    return frameworks.filter(
+      (framework) =>
+        framework.name.toLowerCase().includes(term) ||
+        framework.description.toLowerCase().includes(term) ||
+        framework.tags.some((tag) => tag.toLowerCase().includes(term)),
     );
   };
 
@@ -106,6 +116,6 @@ export const useFrameworks = () => {
     getFrameworkById,
     getActiveFrameworks,
     searchFrameworks,
-    clearError: () => setError(null)
+    clearError: () => setError(null),
   };
 };

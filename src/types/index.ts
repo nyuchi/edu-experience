@@ -1,14 +1,14 @@
 // Common types used across the CRP Observation System
 
 // User role enumeration
-export type UserRole = 'admin' | 'coordinator' | 'observer' | 'teacher';
+export type UserRole = "admin" | "coordinator" | "observer" | "teacher";
 
 export interface Framework {
   id: string;
   name: string;
   description: string;
   version: string;
-  status: 'active' | 'inactive' | 'draft';
+  status: "active" | "inactive" | "draft";
   lastModified: string;
   tags: string[];
   sections: Section[];
@@ -25,7 +25,7 @@ export interface Section {
 export interface Question {
   id: string;
   text: string;
-  type: 'rating' | 'text' | 'multiselect' | 'single-select' | 'yes-no';
+  type: "rating" | "text" | "multiselect" | "single-select" | "yes-no";
   required: boolean;
   scale?: number;
   weight: number;
@@ -73,17 +73,18 @@ export interface Observation {
   startTime: string;
   endTime?: string;
   duration: number;
-  status: 'draft' | 'in-progress' | 'completed' | 'submitted';
+  status: "draft" | "in-progress" | "completed" | "submitted";
   responses: Record<string, ObservationResponse>;
   comments: Record<string, string>;
   overallComment: string;
   classInfo: ClassInfo;
   mediaAttachments?: MediaAttachment[];
-  crpEvidenceCount?: number;      // Auto-calculated from responses
-  totalLookFors?: number;         // Auto-calculated
-  metadata?: {                    // Enhanced tracking
+  crpEvidenceCount?: number; // Auto-calculated from responses
+  totalLookFors?: number; // Auto-calculated
+  metadata?: {
+    // Enhanced tracking
     location?: string;
-    syncStatus?: 'synced' | 'pending' | 'offline';
+    syncStatus?: "synced" | "pending" | "offline";
   };
 }
 
@@ -95,7 +96,7 @@ export interface ObservationResponse {
 
 export interface MediaAttachment {
   id: string;
-  type: 'photo' | 'audio' | 'video';
+  type: "photo" | "audio" | "video";
   url: string;
   timestamp: string;
   description?: string;
@@ -105,7 +106,7 @@ export interface FrameworkAlignment {
   id: string;
   label: string;
   category: string;
-  color: 'green' | 'pink' | 'blue' | 'yellow' | 'purple' | 'indigo';
+  color: "green" | "pink" | "blue" | "yellow" | "purple" | "indigo";
 }
 
 export interface DashboardStats {
@@ -122,10 +123,10 @@ export interface DashboardStats {
 
 export interface ProcessingJob {
   id: string;
-  type: 'CSV Import' | 'API Import' | 'BigQuery Sync' | 'Data Export';
+  type: "CSV Import" | "API Import" | "BigQuery Sync" | "Data Export";
   filename?: string;
   source?: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: "pending" | "processing" | "completed" | "failed";
   progress: number;
   records: number;
   errors: number;
@@ -137,7 +138,7 @@ export interface ApiConnection {
   id: string;
   name: string;
   type: string;
-  status: 'connected' | 'error' | 'disconnected';
+  status: "connected" | "error" | "disconnected";
   lastSync: string;
   endpoint: string;
   recordCount: number;
@@ -201,7 +202,7 @@ export interface ScheduledObservation {
   scheduledDate: string;
   scheduledTime: string;
   duration: number;
-  status: 'scheduled' | 'confirmed' | 'cancelled' | 'completed';
+  status: "scheduled" | "confirmed" | "cancelled" | "completed";
   notes?: string;
   remindersSent: boolean;
   createdAt: string;
@@ -210,7 +211,7 @@ export interface ScheduledObservation {
 
 // Observation filters and search
 export interface ObservationFilters {
-  status?: ('draft' | 'in-progress' | 'completed' | 'scheduled')[];
+  status?: ("draft" | "in-progress" | "completed" | "scheduled")[];
   dateRange?: {
     start: string;
     end: string;
@@ -224,8 +225,8 @@ export interface ObservationFilters {
 export interface ObservationSearchParams {
   query?: string;
   filters?: ObservationFilters;
-  sortBy?: 'date' | 'teacher' | 'observer' | 'framework' | 'status';
-  sortOrder?: 'asc' | 'desc';
+  sortBy?: "date" | "teacher" | "observer" | "framework" | "status";
+  sortOrder?: "asc" | "desc";
   page?: number;
   limit?: number;
 }
