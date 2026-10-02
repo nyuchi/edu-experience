@@ -10,7 +10,12 @@
     "firebase:init": "firebase init",
     "firebase:deploy": "npm run build && firebase deploy",
     "firebase:serve": "firebase serve",
-    "firebase:emulators": "firebase emulators:start"
+    "firebase:emulators": "firebase emulators:start",
+    "check": "vp check",
+    "lint": "vp lint",
+    "fmt": "vp fmt",
+    "ci:check": "vp fmt --check",
+    "ci:build": "astro sync"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
@@ -26,6 +31,8 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.12",
     "autoprefixer": "^10.4.21",
-    "tailwindcss": "^4.1.12"
-  }
+    "tailwindcss": "^4.1.12",
+    "vite-plus": "^1.0.0"
+  },
+  "packageManager": "npm@11.12.1"
 }

@@ -1,7 +1,7 @@
 // Teachers Management Hook
-import { useState, useEffect, useCallback } from 'react';
-import { teacherOperations } from '../firebase/firestore';
-import { Teacher } from '../types';
+import { useState, useEffect, useCallback } from "react";
+import { teacherOperations } from "../firebase/firestore";
+import { Teacher } from "../types";
 
 export const useTeachers = () => {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
@@ -16,7 +16,8 @@ export const useTeachers = () => {
       const data = await teacherOperations.getAll();
       setTeachers(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load teachers';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to load teachers";
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -34,7 +35,8 @@ export const useTeachers = () => {
       setError(null);
       return await teacherOperations.search(searchTerm);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to search teachers';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to search teachers";
       setError(errorMessage);
       return [];
     }
@@ -46,7 +48,8 @@ export const useTeachers = () => {
       setError(null);
       return await teacherOperations.getById(id);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to get teacher';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to get teacher";
       setError(errorMessage);
       return null;
     }
@@ -54,34 +57,37 @@ export const useTeachers = () => {
 
   // Get teachers by department
   const getTeachersByDepartment = (department: string): Teacher[] => {
-    return teachers.filter(teacher => teacher.department === department);
+    return teachers.filter((teacher) => teacher.department === department);
   };
 
   // Get teachers by grade
   const getTeachersByGrade = (grade: string): Teacher[] => {
-    return teachers.filter(teacher => teacher.grade === grade);
+    return teachers.filter((teacher) => teacher.grade === grade);
   };
 
   // Get teachers by subject
   const getTeachersBySubject = (subject: string): Teacher[] => {
-    return teachers.filter(teacher => teacher.subjects.includes(subject));
+    return teachers.filter((teacher) => teacher.subjects.includes(subject));
   };
 
   // Bulk import teachers
-  const importTeachers = async (teacherData: Omit<Teacher, 'id'>[]): Promise<{
+  const importTeachers = async (
+    teacherData: Omit<Teacher, "id">[],
+  ): Promise<{
     successful: number;
-    errors: Array<{ teacher: Omit<Teacher, 'id'>; error: string }>;
+    errors: Array<{ teacher: Omit<Teacher, "id">; error: string }>;
   } | null> => {
     try {
       setError(null);
       const result = await teacherOperations.bulkImport(teacherData);
-      
+
       // Refresh teachers list after import
       await loadTeachers();
-      
+
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to import teachers';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to import teachers";
       setError(errorMessage);
       return null;
     }
@@ -89,21 +95,21 @@ export const useTeachers = () => {
 
   // Get unique departments
   const getDepartments = (): string[] => {
-    const departments = teachers.map(teacher => teacher.department);
+    const departments = teachers.map((teacher) => teacher.department);
     return Array.from(new Set(departments)).sort();
   };
 
   // Get unique grades
   const getGrades = (): string[] => {
     const grades = teachers
-      .map(teacher => teacher.grade)
-      .filter(grade => grade !== undefined) as string[];
+      .map((teacher) => teacher.grade)
+      .filter((grade) => grade !== undefined) as string[];
     return Array.from(new Set(grades)).sort();
   };
 
   // Get unique subjects
   const getSubjects = (): string[] => {
-    const subjects = teachers.flatMap(teacher => teacher.subjects);
+    const subjects = teachers.flatMap((teacher) => teacher.subjects);
     return Array.from(new Set(subjects)).sort();
   };
 
@@ -113,7 +119,7 @@ export const useTeachers = () => {
       total: teachers.length,
       departments: getDepartments().length,
       grades: getGrades().length,
-      subjects: getSubjects().length
+      subjects: getSubjects().length,
     };
   };
 
@@ -132,6 +138,6 @@ export const useTeachers = () => {
     getSubjects,
     getTeacherStats,
     loadTeachers,
-    clearError: () => setError(null)
+    clearError: () => setError(null),
   };
 };

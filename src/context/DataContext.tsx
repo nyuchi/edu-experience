@@ -1,7 +1,7 @@
 // src/context/DataContext.tsx
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { fetchData } from '../api/dataApi';
-import { ProcessingJob, ApiConnection } from '../types';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { fetchData } from "../api/dataApi";
+import { ProcessingJob, ApiConnection } from "../types";
 
 interface DataContextType {
   data: {
@@ -19,7 +19,7 @@ interface DataProviderProps {
 }
 
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
-  const [data, setData] = useState<DataContextType['data']>(null);
+  const [data, setData] = useState<DataContextType["data"]>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
 
@@ -39,6 +39,6 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
 export const useData = () => {
   const context = useContext(DataContext);
-  if (!context) throw new Error('useData must be used within a DataProvider');
+  if (!context) throw new Error("useData must be used within a DataProvider");
   return context;
 };

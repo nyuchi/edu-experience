@@ -1,6 +1,6 @@
-import React from 'react';
-import { AdminProvider } from '../context/AdminContext';
-import AdminDashboard from './_AdminDashboard';
+import React from "react";
+import { AdminProvider } from "../context/AdminContext";
+import AdminDashboard from "./_AdminDashboard";
 
 const DashboardWrapper: React.FC = () => {
   return (

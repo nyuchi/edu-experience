@@ -1,8 +1,8 @@
 // Authentication Context
-import React, { createContext, useContext } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { User, AuthState, UserRole } from '../types';
-import { SignInCredentials, SignUpData } from '../firebase/auth';
+import React, { createContext, useContext } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { User, AuthState, UserRole } from "../types";
+import { SignInCredentials, SignUpData } from "../firebase/auth";
 
 interface AuthContextType extends AuthState {
   error: string | null;
@@ -24,17 +24,13 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const auth = useAuth();
 
-  return (
-    <AuthContext.Provider value={auth}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuthContext must be used within an AuthProvider');
+    throw new Error("useAuthContext must be used within an AuthProvider");
   }
   return context;
 };
@@ -51,9 +47,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   requiredPermission,
   requiredRole,
-  fallback
+  fallback,
 }) => {
-  const { isAuthenticated, isLoading, hasPermission, hasRole } = useAuthContext();
+  const { isAuthenticated, isLoading, hasPermission, hasRole } =
+    useAuthContext();
 
   if (isLoading) {
     return (
@@ -71,8 +68,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
-          <p className="text-gray-600">You don't have permission to access this resource.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Access Denied
+          </h2>
+          <p className="text-gray-600">
+            You don't have permission to access this resource.
+          </p>
         </div>
       </div>
     );
@@ -82,8 +83,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
-          <p className="text-gray-600">You don't have the required role to access this resource.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Access Denied
+          </h2>
+          <p className="text-gray-600">
+            You don't have the required role to access this resource.
+          </p>
         </div>
       </div>
     );
@@ -95,8 +100,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 // Login Form Component
 const LoginForm: React.FC = () => {
   const [credentials, setCredentials] = React.useState<SignInCredentials>({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [showForgotPassword, setShowForgotPassword] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -119,7 +124,7 @@ const LoginForm: React.FC = () => {
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!credentials.email) {
-      setMessage('Please enter your email address.');
+      setMessage("Please enter your email address.");
       return;
     }
 
@@ -128,7 +133,7 @@ const LoginForm: React.FC = () => {
     setIsLoading(false);
 
     if (success) {
-      setMessage('Password reset email sent. Please check your inbox.');
+      setMessage("Password reset email sent. Please check your inbox.");
       setShowForgotPassword(false);
     }
   };
@@ -138,17 +143,22 @@ const LoginForm: React.FC = () => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {showForgotPassword ? 'Reset Password' : 'Sign in to CRP Observer'}
+            {showForgotPassword ? "Reset Password" : "Sign in to CRP Observer"}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Culturally Responsive Practices Observation Tool
           </p>
         </div>
-        
-        <form className="mt-8 space-y-6" onSubmit={showForgotPassword ? handleForgotPassword : handleSubmit}>
+
+        <form
+          className="mt-8 space-y-6"
+          onSubmit={showForgotPassword ? handleForgotPassword : handleSubmit}
+        >
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email" className="sr-only">Email address</label>
+              <label htmlFor="email" className="sr-only">
+                Email address
+              </label>
               <input
                 id="email"
                 name="email"
@@ -157,13 +167,17 @@ const LoginForm: React.FC = () => {
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
                 value={credentials.email}
-                onChange={(e) => setCredentials(prev => ({ ...prev, email: e.target.value }))}
+                onChange={(e) =>
+                  setCredentials((prev) => ({ ...prev, email: e.target.value }))
+                }
               />
             </div>
-            
+
             {!showForgotPassword && (
               <div>
-                <label htmlFor="password" className="sr-only">Password</label>
+                <label htmlFor="password" className="sr-only">
+                  Password
+                </label>
                 <input
                   id="password"
                   name="password"
@@ -172,17 +186,24 @@ const LoginForm: React.FC = () => {
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
                   value={credentials.password}
-                  onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
+                  onChange={(e) =>
+                    setCredentials((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
                 />
               </div>
             )}
           </div>
 
           {(error || message) && (
-            <div className={`rounded-md p-4 ${error ? 'bg-red-50' : 'bg-green-50'}`}>
+            <div
+              className={`rounded-md p-4 ${error ? "bg-red-50" : "bg-green-50"}`}
+            >
               <div className="flex">
                 <div className="text-sm">
-                  <p className={error ? 'text-red-800' : 'text-green-800'}>
+                  <p className={error ? "text-red-800" : "text-green-800"}>
                     {error || message}
                   </p>
                 </div>
@@ -200,7 +221,7 @@ const LoginForm: React.FC = () => {
                 Forgot your password?
               </button>
             )}
-            
+
             {showForgotPassword && (
               <button
                 type="button"
@@ -225,7 +246,7 @@ const LoginForm: React.FC = () => {
               {isLoading && (
                 <span className="mr-2 animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
               )}
-              {showForgotPassword ? 'Send Reset Email' : 'Sign in'}
+              {showForgotPassword ? "Send Reset Email" : "Sign in"}
             </button>
           </div>
         </form>
