@@ -399,15 +399,28 @@ export const validateCSVHeaders = (
   };
 };
 
-/**
- * Sanitize user input
- */
-export const sanitizeInput = (input: string): string => {
-  return input
-    .trim()
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "") // Remove script tags
-    .replace(/[<>]/g, ""); // Remove angle brackets
+const HTML_ESCAPES: Record<string, string> = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;",
 };
+
+/**
+ * Sanitise user input for output into HTML text or a quoted attribute value.
+ *
+ * Trims the input and escapes `& < > " '` as HTML entities, in one pass, so
+ * no markup in the input survives and nothing is double-decoded. Tags are not
+ * stripped with regular expressions: that approach cannot be made complete
+ * (for example `</script >` or nested `<scr<script>ipt>`).
+ *
+ * Do not use it on text that React renders as children or props: React
+ * already escapes those, so this would show the entities literally. It is
+ * for strings that end up in raw HTML (innerHTML, emails, exported HTML).
+ */
+export const sanitizeInput = (input: string): string =>
+  input.trim().replace(/[&<>"']/g, (char) => HTML_ESCAPES[char] ?? char);
 
 /**
  * Validate file upload
