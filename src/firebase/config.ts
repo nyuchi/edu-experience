@@ -1,6 +1,6 @@
 // Firebase Configuration
-// Replace these values with your actual Firebase project configuration
-// To get this configuration, go to Firebase Console > Project Settings > General > Your apps
+// Values come from the PUBLIC_FIREBASE_* environment variables (see .env.example).
+// Get them from Firebase Console > Project Settings > General > Your apps.
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
@@ -9,14 +9,20 @@ import { getFunctions } from "firebase/functions";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC96VQ0JAYK2rwVGzikSWO_0RtLztR5BcI",
-  authDomain: "educator-evaluations.firebaseapp.com",
-  projectId: "educator-evaluations",
-  storageBucket: "educator-evaluations.firebasestorage.app",
-  messagingSenderId: "586497717614",
-  appId: "1:586497717614:web:2a5b0c565b67675b73fd7f",
-  measurementId: "G-HWXFM2W3E7",
+  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+  authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+  measurementId: import.meta.env.PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
+
+if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  throw new Error(
+    "Firebase is not configured: set the PUBLIC_FIREBASE_* variables (see .env.example).",
+  );
+}
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
